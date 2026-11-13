@@ -1,9 +1,157 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Мой сайт ГДЗ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jabegram Presentation</title>
+    <style>
+        /* Сброс */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            /* Высота страницы ровно 100vh, никаких скроллов по вертикали */
+            height: 100vh;
+            overflow: hidden; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Контейнер карусели */
+        .carousel {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            
+            /* Отступы по 14px слева и справа */
+            padding: 14px; 
+            
+            /* Включаем горизонтальный скролл */
+            overflow-x: auto;
+            overflow-y: hidden;
+            
+            /* Плавный свайп и прилипание к центру карточки */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; 
+            
+            /* Скрываем скроллбар для чистоты */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Карточка */
+        .card {
+            flex: 0 0 auto;
+            
+            /* Высота карточки = высота экрана минус 28px (14 сверху и 14 снизу) */
+            height: 100%; 
+            
+            /* Ширина карточки вычисляется автоматически, чтобы сохранить пропорции iPhone (390/844 = 0.462) */
+            aspect-ratio: 390 / 844;
+            
+            /* Отступ ровно 14px между карточками */
+            margin-right: 14px;
+            
+            /* Убираем скругления (как вы просили) */
+            border-radius: 0; 
+            
+            background-color: #fff;
+            
+            /* Красивая тень */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            
+            /* Прилипание */
+            scroll-snap-align: center;
+            
+            /* Плавный эффект при наведении */
+            transition: transform 0.3s ease;
+        }
+
+        /* Убираем отступ у последней карточки, чтобы не было пустоты */
+        .card:last-child {
+            margin-right: 0;
+        }
+
+        /* Картинка внутри карточки */
+        .card img {
+            width: 100%;
+            height: 100%;
+            
+            /* Покрывает всю карточку, сохраняя пропорции. 
+               Если пропорции картинки чуть отличаются от 390x844, 
+               она аккуратно заполнит карточку без искажений (обрезка краев) */
+            object-fit: cover; 
+            display: block;
+            
+            /* Убираем перетаскивание */
+            -webkit-user-drag: none; 
+            user-select: none;
+        }
+
+        /* --- АДАПТИВ --- */
+        
+        /* На мобильных телефонах делаем отступы чуть меньше по вертикали, 
+           чтобы карточка не казалась слишком мелкой из-за высоты экрана */
+        @media (max-width: 600px) {
+            .carousel {
+                padding: 14px; /* Оставляем ровно 14px везде */
+            }
+            .card {
+                /* На мобильном карточка занимает 85% ширины экрана, 
+                   чтобы было видно следующую (эффект карусели) */
+                height: 100%;
+                width: 85vw;
+                aspect-ratio: auto; /* Отключаем жесткое соотношение, так как ширина задана */
+                margin-right: 14px;
+            }
+            .card img {
+                /* Возвращаем contain на мобильных, чтобы не обрезать края, 
+                   но карточка будет растянута по высоте */
+                object-fit: contain; 
+                background-color: #f5f5f5; /* Легкий фон под картинкой, если она не заполняет */
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Привет! Это мой сайт с ГДЗ.</h1>
+
+    <div class="carousel">
+        <div class="card">
+            <img src="1%20клиент%20telegram.png" alt="Клиент Telegram" draggable="false">
+        </div>
+        <div class="card">
+            <img src="2%20Ваш%20новый%20профиль.png" alt="Ваш новый профиль" draggable="false">
+        </div>
+        <div class="card">
+            <img src="3%20Ваше%20персональное%20меню.png" alt="Ваше персональное меню" draggable="false">
+        </div>
+        <div class="card">
+            <img src="4%20VPN%20прямо%20в%20Jabagram.png" alt="VPN прямо в Jabagram" draggable="false">
+        </div>
+        <div class="card">
+            <img src="5%20AI%20генерация%20стикер%20паков.png" alt="AI генерация стикер паков" draggable="false">
+        </div>
+        <div class="card">
+            <img src="6%20Market%20Plugins.png" alt="Market Plugins" draggable="false">
+        </div>
+        <div class="card">
+            <img src="8%20Jabegram%20-%20icon%20app.png" alt="Jabegram Icon" draggable="false">
+        </div>
+        <div class="card">
+            <img src="9%20Ищем%20команду%20для%20совместной%20работ1ы%20над%20проектом.png" alt="Ищем команду" draggable="false">
+        </div>
+    </div>
+
 </body>
 </html>
