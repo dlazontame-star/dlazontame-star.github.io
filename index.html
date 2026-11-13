@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jabegram Presentation</title>
     <style>
-        /* Сброс */
         * {
             margin: 0;
             padding: 0;
@@ -20,11 +19,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            
+            /* Блокировка выделения и вызова контекстного меню */
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
-        /* Контейнер карусели */
         .carousel {
             display: flex;
             width: 100%;
@@ -37,75 +38,82 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             
-            /* По умолчанию (ПК) отступы 14px */
-            padding: 14px; 
+            /* Отступы 20px со всех сторон (сверху тоже 20px) */
+            padding: 20px; 
         }
         
         .carousel::-webkit-scrollbar {
             display: none;
         }
 
-        /* Карточка (ПК) */
         .card {
             flex: 0 0 auto;
             height: 100%; 
             aspect-ratio: 390 / 844;
+            
+            /* Отступ между карточками (по умолчанию) */
             margin-right: 14px;
+            
             border-radius: 0; 
-            background-color: #fff;
+            background-color: transparent; /* Убрали фон, чтобы не было доп. отступов */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             scroll-snap-align: center;
             transition: transform 0.3s ease;
+            
+            /* Скрываем всё, что выходит за пределы */
+            overflow: hidden;
         }
 
         .card:last-child {
             margin-right: 0;
         }
 
+        /* Ссылка для 9-й карточки */
+        .card-link {
+            display: block;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
         .card img {
             width: 100%;
             height: 100%;
+            /* Картинка полностью заполняет карточку, без белых полос */
             object-fit: cover; 
             display: block;
             -webkit-user-drag: none; 
+            pointer-events: none; /* Запрещаем клики/сохранение самой картинки */
         }
 
         /* ==========================================
-           УЛУЧШЕННЫЙ АДАПТИВ ДЛЯ МОБИЛЬНЫХ (до 600px)
+           АДАПТИВ ДЛЯ МОБИЛЬНЫХ (до 600px)
            ========================================== */
         @media (max-width: 600px) {
             .carousel {
-                /* Отступ по 10px слева и справа, чтобы карточка не прилипала к краям */
-                padding: 0 10px; 
+                /* Оставляем 20px сверху и по краям */
+                padding: 20px; 
             }
 
             .card {
-                /* 
-                   Вычисляем ширину так, чтобы влезла одна карточка + отступ 10px + кусочек следующей.
-                   Берем 100% ширины экрана, вычитаем отступы по краям (20px) 
-                   и делим на 1.15, чтобы оставить примерно 15% на "подглядывание" следующей карточки.
-                */
-                width: calc((100vw - 20px) / 1.15); 
+                /* Вычисляем ширину: (100vw - 40px отступы по краям) / 1.15 (оставляем место для следующей) */
+                width: calc((100vw - 40px) / 1.15); 
                 height: 100%; 
-                /* Отступ между карточками строго 10px */
-                margin-right: 10px; 
+                margin-right: 10px; /* На мобилке между карточками 10px */
                 aspect-ratio: auto; 
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             }
 
             .card img {
-                /* Возвращаем contain на мобильных, чтобы картинки не обрезались, 
-                   а полностью вписывались в карточку (появятся небольшие белые поля сверху/снизу, 
-                   если пропорции картинки чуть отличаются от пропорций карточки) */
+                /* На мобилке используем contain, чтобы картинки не обрезались */
                 object-fit: contain; 
-                background-color: #f8f9fa; /* Очень светлый фон для карточки */
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="carousel">
+    <div class="carousel" id="carousel">
         <div class="card">
             <img src="1%20клиент%20telegram.png" alt="Клиент Telegram" draggable="false">
         </div>
@@ -127,10 +135,30 @@
         <div class="card">
             <img src="8%20Jabegram%20-%20icon%20app.png" alt="Jabegram Icon" draggable="false">
         </div>
+        
+        <!-- 9-я карточка со ссылкой -->
         <div class="card">
-            <img src="9%20Ищем%20команду%20для%20совместной%20работ1ы%20над%20проектом.png" alt="Ищем команду" draggable="false">
+            <a href="https://t.me/www_mono" target="_blank" class="card-link">
+                <img src="9%20Ищем%20команду%20для%20совместной%20работ1ы%20над%20проектом.png" alt="Ищем команду" draggable="false">
+            </a>
         </div>
     </div>
 
+    <!-- Скрипт для дополнительной блокировки (контекстное меню, горячие клавиши) -->
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Блокируем PrintScreen, Ctrl+P, Ctrl+S, Ctrl+Shift+S
+            if (e.key === 'PrintScreen' || 
+               (e.ctrlKey && e.key === 'p') || 
+               (e.ctrlKey && e.key === 's')) {
+                e.preventDefault();
+                alert('Скриншоты и сохранение заблокированы.');
+            }
+        });
+    </script>
 </body>
 </html>
